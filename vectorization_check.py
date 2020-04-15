@@ -38,22 +38,6 @@ ws = wb.add_sheet('Report')
 
 def generate_report():
     j = -1
-    """for prfrm_file in prfrm_files:
-        #dbsf
-        print(prfrm_file)
-        db = dbf.Dbf(prfrm_file)
-        i = -1
-        for rec in db:
-            i += 1
-            j += 1
-            rec = db[i]
-            ws.write(j, 0, prfrm_file)
-            ws.write(j, 1, rec['KOATUU'])
-            ws.write(j, 2, str(rec['AREAATORAD']))
-            ws.write(j, 3, rec['NATORAD'].decode('cp1251'))
-            if str(rec['KOATUU']) not in prfrm_file:
-                ws.write(j, 4, 'ERROR: Check KOATUU')
-        db.close()"""
     for prfrmnp_file in prfrmnp_files:
         #dbsf
         print(prfrmnp_file)
@@ -74,7 +58,7 @@ def generate_report():
 
 def fill_prfrmnp():
     for prfrmnp_file in prfrmnp_files:
-        print (prfrmnp_file)
+        print(prfrmnp_file)
         db = dbf.Dbf(prfrmnp_file)
         i = -1
         for rec in db:
@@ -89,7 +73,7 @@ def fill_prfrmnp():
 def fill_prfrm():
     for prfrm_file in prfrm_files:
         #dbsf
-        print (prfrm_file)
+        print(prfrm_file)
         db = dbf.Dbf(prfrm_file)
         i = -1
         for rec in db:
@@ -124,19 +108,14 @@ def check_empty_grunt():
         result_4.write('\n')
         db = dbf.Dbf(grunt_file)
         i = -1
-
         for rec in db:
             i += 1
             rec = db[i]
             is_mofified = False
             current = 'Line: ' + str(i + 2) + ' => '
-            #if rec['ID'] == '':
-                #current += ' ID'
             if rec['ND'] == '' or rec['ND'] == '-':
                 current += ' ND'
                 is_mofified = True
-                #rec['ND'] = empty.encode('cp1251')
-                #rec.store()
             if rec['DATESD'] == '' or rec['DATESD'] == '-':
                 current += ' DATESD'
                 is_mofified = True
@@ -158,8 +137,6 @@ def check_empty_grunt():
             if rec['NAGG'] == '' or rec['NAGG'] == '-':
                 current += ' NAGG (' + rec['SHAGG'] + ')'
                 is_mofified = True
-                #rec['NAGG'] = empty_2.encode('cp1251')
-                #rec.store()
             if rec['AREAAGG'] == '' or rec['AREAAGG'] == '-':
                 current += ' AREAAGG'
                 is_mofified = True
@@ -170,7 +147,6 @@ def check_empty_grunt():
                 result_4.write(current)
                 result_4.write('\n')
         db.close()
-    #result_4.close()
 
 
 def check_empty_prfrm():
@@ -184,8 +160,6 @@ def check_empty_prfrm():
             i += 1
             rec = db[i]
             current = 'Line: ' + str(i) + ' => '
-            #if rec['ID'] == '':
-            #    current += ' ID'
             if rec['KOATUU'] == '':
                 current += ' KOATUU'
             if rec['NATOOBL'] == '':
@@ -221,7 +195,6 @@ def check_empty_prfrm():
             result_5.write(current)
             result_5.write('\n')
         db.close()
-    #result_5.close()
 
 
 def check_empty_prfrmnp():
@@ -274,42 +247,38 @@ def check_empty_prfrmnp():
             result_6.write(current)
             result_6.write('\n')
         db.close()
-    #result_6.close()
 
 
 def check_grunt_fields():
     for grunt_file in grunt_files:
-        print (grunt_file)
+        print(grunt_file)
         db = dbf.Dbf(grunt_file)
-        print((db.fieldNames))
+        print(db.fieldNames)
         if collections.Counter(grunt_correct_fields) != collections.Counter(db.fieldNames):
             result_1.write(grunt_file)
             result_1.write('\n')
-        #result_1.close()
         db.close()
 
 
 def check_prfrm_fields():
     for prfrm_file in prfrm_files:
-        print (prfrm_file)
+        print(prfrm_file)
         db = dbf.Dbf(prfrm_file)
-        print((db.fieldNames))
+        print(db.fieldNames)
         if collections.Counter(prfrm_correct_fields) != collections.Counter(db.fieldNames):
             result_2.write(prfrm_file)
             result_2.write('\n')
-        #result_2.close()
         db.close()
 
 
 def check_prfrmnp_fields():
     for prfrmnp_file in prfrmnp_files:
-        print (prfrmnp_file)
+        print(prfrmnp_file)
         db = dbf.Dbf(prfrmnp_file)
-        print((db.fieldNames))
+        print(db.fieldNames)
         if collections.Counter(prfrmnp_correct_fields) != collections.Counter(db.fieldNames):
             result_3.write(prfrmnp_file)
             result_3.write('\n')
-        #result_3.close()
         db.close()
 
 for root, dirs, files in os.walk('./'):
@@ -360,4 +329,3 @@ result_4.close()
 result_5.close()
 result_6.close()
 wb.save('./results/PrFrm_PrFrmNp_report.xls')
-
